@@ -36,7 +36,7 @@ class BasePage():
             return False
         return True
 
-    def is_not_element_present(self, how, what, timeout=0):
+    def is_not_element_present(self, how, what, timeout=3):
         # проверка, что элемент не появляется на странице в течение заданного времени
         try:
             WebDriverWait(self.browser, timeout).until(EC.presence_of_element_located((how, what)))

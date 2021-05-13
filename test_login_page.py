@@ -22,7 +22,7 @@ class TestLogin():
         page.standard_user_login()
         page.all_users_password_enter()
         page.do_login()
-        time.sleep(5)
+        page.should_be_successful_login()
 
     @pytest.mark.debug
     def test_locked_out_user_can_login(self, browser):
@@ -31,7 +31,7 @@ class TestLogin():
         page.locked_out_user_login()
         page.all_users_password_enter()
         page.do_login()
-        time.sleep(5)
+        page.should_be_successful_login()
 
     def test_problem_user_can_login(self, browser):
         page = LoginPage(browser, link)

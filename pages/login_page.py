@@ -40,3 +40,8 @@ class LoginPage(BasePage):
 
     def do_login(self):
         login_button = self.browser.find_element(*LoginPageLocators.LOGIN_BUTTON).click()
+
+    def should_be_successful_login(self):
+        # проверка, что нет cообщения об ошибке
+        text = self.browser.find_element(*LoginPageLocators.ERROR_TEXT)
+        assert self.is_not_element_present(*LoginPageLocators.ERROR_MESSAGE), f"{text.text}"
