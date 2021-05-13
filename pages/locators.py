@@ -2,15 +2,20 @@ from selenium.webdriver.common.by import By
 
 
 class LoginPageLocators():
-    ICON_LOGO = (By.XPATH, "//div[@class='bot_column']")
     LOGIN_LOGO = (By.XPATH, "//div[@class='login_logo']")
 
     USERNAME_FIELD = (By.XPATH, "//input[@id='user-name']")
     PASSWORD_FIELD = (By.XPATH, "//input[@id='password']")
     LOGIN_BUTTON = (By.XPATH, "//input[@id='login-button']")
 
-    LOGIN = (By.XPATH, "//div[@class='login_credentials']/text()[1]")  # 1-4
+    STANDARD_USER = (By.XPATH, "//div[@id='login_credentials']/text()")
+    LOCKED_OUT_USER = (By.XPATH, "//div[@class='login_credentials']/text()[2]")
+    PROBLEM_USER = (By.XPATH, "//div[@class='login_credentials']/text()[3]")
+    PERFOMANCE_GLITCH_USER = (By.XPATH, "//div[@class='login_credentials']/text()[4]")
     PASSWORD = (By.XPATH, "//div[@class='login_password']")
+
+    ERROR_MESSAGE = (By.XPATH, "//div[@class='error-message-container error']")
+    ERROR_TEXT = (By.XPATH, "//*[@id='login_button_container']/div/form/div[3]/h3")
 
 
 class InventoryPageLocator():
