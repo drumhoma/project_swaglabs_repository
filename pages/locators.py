@@ -15,19 +15,34 @@ class LoginPageLocators():
     PASSWORD = (By.XPATH, "//div[@class='login_password']")
 
     ERROR_MESSAGE = (By.XPATH, "//div[@class='error-message-container error']")
-    ERROR_TEXT = (By.XPATH, "//*[@id='login_button_container']/div/form/div[3]/h3")
 
 
-class InventoryPageLocator():
+class InventoryPageLocators():
+    APP_LOGO = (By.XPATH, "//div[@class='app_logo']")
+
     SIDE_MENU = (By.XPATH, "//button[@id='react-burger-menu-btn']")
     SELECT_MENU = (By.XPATH, "//select[@class='product_sort_container']")
+    VALUE_SELECT = (By.XPATH, "//option[@value][4]")
+
+    ITEM_NAME_IN_LINK = (By.XPATH, "//div[@class='inventory_item_name']")  # найти все 6
+    ITEM_NAME_IN_CARD = (By.XPATH, "//div[@class='inventory_details_name large_size']")
+    ITEM_PRICE_IN_LINK = (By.XPATH, "//div[@class='inventory_item_price']")
+    ITEM_PRICE_IN_CARD = (By.XPATH, "//div[@class='inventory_details_price']")
+    BACK_TO_INVENTORY = (By.XPATH, "//button[@id='back-to-products']")
+
     SHOP_CART = (By.XPATH, "//a[@class='shopping_cart_link']")
     ADD_TO_CART = (By.XPATH, "//button[@class='btn btn_primary btn_small btn_inventory']")  # найти все 6
-    ITEM_ = (By.XPATH, "//img[@class='inventory_item_img']")  # найти все 6
+    DEL_FROM_CART = (By.XPATH, "//button[@class='btn btn_secondary btn_small btn_inventory']")  # найти все 6
+    NUM_IN_CART = (By.XPATH, "//span[@class='shopping_cart_badge']")
 
 
-class CartPageLocator():
-    pass
+class CartPageLocators():
+    CHECKOUT_BUTTON = (By.XPATH, "//button[@id='checkout']")
+    FIRST_NAME = (By.XPATH, "//input[@id='first-name']")
+    LAST_NAME = (By.XPATH, "//input[@id='last-name']")
+    ZIP_CODE = (By.XPATH, "//input[@id='postal-code']")
+    CONTINUE_BUTTON = (By.XPATH, "//input[@id='continue']")
+    FINISH_BUTTON = (By.XPATH, "//button[@id='finish']")
 
 
 class CheckOutPageLocator():

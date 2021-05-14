@@ -1,10 +1,11 @@
 import time
 
-from selenium.common.exceptions import NoAlertPresentException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+
+from .locators import LoginPageLocators
 
 
 class BasePage():
@@ -23,10 +24,10 @@ class BasePage():
         # получение текста из атрибута локатора
         return self.browser.find_element(how, what).text
 
-    def should_be_authorized_user(self):
+    def should_be_login_logo(self):
         # проверка, что пользователь авторизован
-        assert self.is_element_present(*LoginPageLocators.USER_ICON), "User icon is not presented," \
-                                                                      " probably unauthorised user"
+        assert self.is_element_present(*LoginPageLocators.LOGIN_LOGO), "User icon is not presented," \
+                                                                       " probably unauthorised user"
 
     def is_element_present(self, how, what):
         # проверка, что элемент присутствует на странице
@@ -53,17 +54,3 @@ class BasePage():
             return False
 
         return True
-
-    def solve_quiz_and_get_code(self):
-        alert = self.browser.switch_to.alert
-        x = alert.text.split(" ")[2]
-        answer = x
-        alert.send_keys(answer)
-        alert.accept()
-        try:
-            alert = self.browser.switch_to.alert
-            alert_text = alert.text
-            print(f"Your code: {alert_text}")
-            alert.accept()
-        except NoAlertPresentException:
-            print("No second alert presented")
