@@ -15,7 +15,7 @@ class TestLogin():
         page.should_be_login_logo()
         page.should_be_login_button()
 
-    @pytest.mark.debug
+    @pytest.mark.xfail
     def test_standard_user_can_login(self, browser):
         page = LoginPage(browser, link)
         page.open()
@@ -24,7 +24,6 @@ class TestLogin():
         page.do_login()
         page.should_be_successful_login()
 
-    @pytest.mark.debug
     def test_locked_out_user_can_login(self, browser):
         page = LoginPage(browser, link)
         page.open()
@@ -40,6 +39,7 @@ class TestLogin():
         page.all_users_password_enter()
         page.do_login()
 
+    @pytest.mark.debug
     def test_performance_glitch_user_can_login(self, browser):
         page = LoginPage(browser, link)
         page.open()
