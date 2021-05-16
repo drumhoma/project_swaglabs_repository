@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 
-class LoginPageLocators():
+class LoginPageLocators:
     LOGIN_LOGO = (By.XPATH, "//div[@class='login_logo']")
 
     USERNAME_FIELD = (By.XPATH, "//input[@id='user-name']")
@@ -17,7 +17,7 @@ class LoginPageLocators():
     ERROR_MESSAGE = (By.XPATH, "//div[@class='error-message-container error']")
 
 
-class InventoryPageLocators():
+class InventoryPageLocators:
     APP_LOGO = (By.XPATH, "//div[@class='app_logo']")
 
     SIDE_MENU = (By.XPATH, "//button[@id='react-burger-menu-btn']")
@@ -36,14 +36,15 @@ class InventoryPageLocators():
     NUM_IN_CART = (By.XPATH, "//span[@class='shopping_cart_badge']")
 
 
-class CartPageLocators():
+class CartPageLocators:
     CHECKOUT_BUTTON = (By.XPATH, "//button[@id='checkout']")
+
+
+
+class CheckOutPageLocators:
     FIRST_NAME = (By.XPATH, "//input[@id='first-name']")
     LAST_NAME = (By.XPATH, "//input[@id='last-name']")
     ZIP_CODE = (By.XPATH, "//input[@id='postal-code']")
     CONTINUE_BUTTON = (By.XPATH, "//input[@id='continue']")
     FINISH_BUTTON = (By.XPATH, "//button[@id='finish']")
-
-
-class CheckOutPageLocator():
-    pass
+    BACK_HOME_BUTTON = (By.XPATH, "//button[@id='back-to-products']")

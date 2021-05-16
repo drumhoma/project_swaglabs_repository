@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from .locators import LoginPageLocators
 
 
-class BasePage():
+class BasePage:
     def __init__(self, browser, url, timeout=5):
         self.browser = browser
         self.url = url

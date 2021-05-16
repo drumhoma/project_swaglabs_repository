@@ -1,37 +1,23 @@
 from .base_page import BasePage
-from .locators import LoginPageLocators
+from .locators import CheckOutPageLocators
 
 
-class LoginPage(BasePage):
-    def should_be_login_page(self):
-        # проверка наличия элементов авторизации и регистрации
-        self.should_be_login_url()
-        self.should_be_login_form()
-        self.should_be_register_form()
-
+class CheckOutPage(BasePage):
     def should_be_login_url(self):
         # проверка, что открыта страница регистрации/авторизации
         url = self.browser.current_url
         assert "login" in url, "'Login' is not contain in URL"
 
-    def should_be_login_form(self):
-        # проверка, что на странице есть форма логина
-        assert self.is_element_present(*LoginPageLocators.LOGIN_FORM), "Login form is not exists"
+    def checkout_information(self, first_name, last_name, zip_code):
+        self.browser.find_element(*CheckOutPageLocators.FIRST_NAME).send_keys(first_name)
+        self.browser.find_element(*CheckOutPageLocators.LAST_NAME).send_keys(last_name)
+        self.browser.find_element(*CheckOutPageLocators.ZIP_CODE).send_keys(zip_code)
 
-    def should_be_register_form(self):
-        # проверка, что на странице есть форма регистрации
-        assert self.is_element_present(*LoginPageLocators.REGISTER_FORM), "Registration form is not exists"
+    def go_to_continue(self):
+        self.browser.find_element(*CheckOutPageLocators.CONTINUE_BUTTON).click()
 
-    def register_new_user(self, email, password):
-        # регистрация нового пользователя
-        email_enter = self.browser.find_element(*LoginPageLocators.REG_EMAIL)
-        email_enter.send_keys(email)
+    def go_to_finish(self):
+        self.browser.find_element(*CheckOutPageLocators.FINISH_BUTTON).click()
 
-        password_enter = self.browser.find_element(*LoginPageLocators.REG_PASS)
-        password_enter.send_keys(password)
-
-        confirm_password_enter = self.browser.find_element(*LoginPageLocators.REG_CONFIRM_PASS)
-        confirm_password_enter.send_keys(password)
-
-        registration = self.browser.find_element(*LoginPageLocators.REGISTER_BUTTON)
-        registration.click()
+    def should_be_go_back_home(self):
+        self.browser.find_element(*CheckOutPageLocators.BACK_HOME_BUTTON).click()

@@ -2,14 +2,14 @@ import time
 
 import pytest
 
-from .pages.login_page import LoginPage
-from .pages.inventory_page import InventoryPage
 from .pages.cart_page import CartPage
+from .pages.checkout_page import CheckOutPage
+from .pages.inventory_page import InventoryPage
+from .pages.login_page import LoginPage
 
 link = "https://www.saucedemo.com"
 
 
-@pytest.mark.debug
 @pytest.mark.parametrize("username",
                          ["standard_user", "locked_out_user", "problem_user", "performance_glitch_user"])
 @pytest.mark.parametrize("password", ["secret_sauce"])
@@ -22,6 +22,7 @@ class TestUserAddToBasket():
         page.user_login(username)
         page.users_password(password)
         page.login_button_click()
+        page.should_be_successful_login()
 
     def test_user_can_open_item_card(self, browser):
         page = InventoryPage(browser, browser.current_url)
@@ -48,6 +49,7 @@ class TestUserAddToBasket():
         page.go_to_basket()
 
 
+@pytest.mark.debug
 @pytest.mark.parametrize("username", ["standard_user"])
 @pytest.mark.parametrize("password", ["secret_sauce"])
 @pytest.mark.user_add_to_basket
@@ -69,9 +71,11 @@ class TestUserSmoke():
         cart_page = CartPage(browser, browser.current_url)
         time.sleep(1)
         cart_page.go_to_checkout()
-        cart_page.checkout_information("Test", "Test", "123")
+        checkout_page = CheckOutPage(browser, browser.current_url)
+        checkout_page.checkout_information("Test", "Test", "123")
         time.sleep(1)
-        cart_page.go_to_continue()
+        checkout_page.go_to_continue()
         time.sleep(1)
-        cart_page.go_to_finish()
+        checkout_page.go_to_finish()
         time.sleep(1)
+        checkout_page.should_be_go_back_home()
