@@ -6,7 +6,7 @@ link = "https://www.saucedemo.com"
 
 
 @pytest.mark.users_can_login
-class TestLogin():
+class TestLogin:
     def test_should_be_login_attributes(self, browser):
         page = LoginPage(browser, link)
         page.open()

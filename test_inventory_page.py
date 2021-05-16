@@ -14,7 +14,7 @@ link = "https://www.saucedemo.com"
                          ["standard_user", "locked_out_user", "problem_user", "performance_glitch_user"])
 @pytest.mark.parametrize("password", ["secret_sauce"])
 @pytest.mark.user_add_to_basket
-class TestUserAddToBasket():
+class TestUserAddToBasket:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, browser, username, password):
         page = LoginPage(browser, link)
@@ -53,7 +53,7 @@ class TestUserAddToBasket():
 @pytest.mark.parametrize("username", ["standard_user"])
 @pytest.mark.parametrize("password", ["secret_sauce"])
 @pytest.mark.user_add_to_basket
-class TestUserSmoke():
+class TestUserSmoke:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, browser, username, password):
         page = LoginPage(browser, link)

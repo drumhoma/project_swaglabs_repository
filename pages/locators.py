@@ -40,7 +40,6 @@ class CartPageLocators:
     CHECKOUT_BUTTON = (By.XPATH, "//button[@id='checkout']")
 
 
-
 class CheckOutPageLocators:
     FIRST_NAME = (By.XPATH, "//input[@id='first-name']")
     LAST_NAME = (By.XPATH, "//input[@id='last-name']")
