@@ -1,5 +1,6 @@
 import time
 
+import pytest
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
@@ -11,11 +12,6 @@ from .locators import LoginPageLocators
 
 
 class LoginPage(BasePage):
-    def do_login(self):
-        self.standard_user_login()
-        self.all_users_password_enter()
-        self.login_button_click()
-
     def should_be_login_logo(self):
         # проверка, что на странице есть логотип
         assert self.is_element_present(*LoginPageLocators.LOGIN_LOGO), "Login logo is not presented"
@@ -24,28 +20,15 @@ class LoginPage(BasePage):
         # проверка, что на странице есть кнопка для логина
         assert self.is_element_present(*LoginPageLocators.LOGIN_BUTTON), "Login button is not presented"
 
-    def standard_user_login(self):
-        # получить текст из атрибута
-        # username = self.browser.find_element(*LoginPageLocators.STANDARD_USER).text
-        self.browser.find_element(*LoginPageLocators.USERNAME_FIELD).send_keys("standard_user")
+    def user_login(self, username):
+        self.browser.find_element(*LoginPageLocators.USERNAME_FIELD).send_keys(username)
 
-    def locked_out_user_login(self):
-        self.browser.find_element(*LoginPageLocators.USERNAME_FIELD).send_keys("locked_out_user")
-
-    def problem_user_login(self):
-        self.browser.find_element(*LoginPageLocators.USERNAME_FIELD).send_keys("problem_user")
-
-    def performance_glitch_user_login(self):
-        self.browser.find_element(*LoginPageLocators.USERNAME_FIELD).send_keys("performance_glitch_user")
-
-    def all_users_password_enter(self):
-        # password = self.browser.get_text_element(*LoginPageLocators.PASSWORD)
-        self.browser.find_element(*LoginPageLocators.PASSWORD_FIELD).send_keys("secret_sauce")
+    def users_password(self, password):
+        self.browser.find_element(*LoginPageLocators.PASSWORD_FIELD).send_keys(password)
 
     def login_button_click(self):
         self.browser.find_element(*LoginPageLocators.LOGIN_BUTTON).click()
 
     def should_be_successful_login(self):
-        # проверка, что нет cообщения об ошибке
-        text = self.browser.find_element(*LoginPageLocators.ERROR_MESSAGE)
-        assert self.is_not_element_present(*LoginPageLocators.ERROR_MESSAGE), f"{text.text}"
+        # проверка, что на странице есть кнопка для логина
+        assert self.is_not_element_present(*LoginPageLocators.ERROR_MESSAGE), "Autorizaion ERROR!"

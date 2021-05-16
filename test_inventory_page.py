@@ -9,32 +9,38 @@ from .pages.cart_page import CartPage
 link = "https://www.saucedemo.com"
 
 
+@pytest.mark.debug
+@pytest.mark.parametrize("username",
+                         ["standard_user", "locked_out_user", "problem_user", "performance_glitch_user"])
+@pytest.mark.parametrize("password", ["secret_sauce"])
 @pytest.mark.user_add_to_basket
 class TestUserAddToBasket():
     @pytest.fixture(scope="function", autouse=True)
-    def setup(self, browser):
+    def setup(self, browser, username, password):
         page = LoginPage(browser, link)
         page.open()
-        page.do_login()
+        page.user_login(username)
+        page.users_password(password)
+        page.login_button_click()
 
-    def test_standard_user_can_open_item_card(self, browser):
+    def test_user_can_open_item_card(self, browser):
         page = InventoryPage(browser, browser.current_url)
         page.should_be_correct_data_in_card()
         page.should_be_back_to_inventory_page()
         time.sleep(3)
 
-    def test_standard_user_can_select_product_sort(self, browser):
+    def test_user_can_select_product_sort(self, browser):
         page = InventoryPage(browser, browser.current_url)
         time.sleep(3)
         page.product_sort()
 
-    def test_standard_user_can_add_to_basket(self, browser):
+    def test_user_can_add_to_basket(self, browser):
         page = InventoryPage(browser, browser.current_url)
         page.should_be_add_to_basket()
         page.go_to_basket()
         time.sleep(3)
 
-    def test_standard_user_can_remove_from_page(self, browser):
+    def test_user_can_remove_from_page(self, browser):
         page = InventoryPage(browser, browser.current_url)
         page.should_be_add_to_basket()
         time.sleep(3)
@@ -42,22 +48,30 @@ class TestUserAddToBasket():
         page.go_to_basket()
 
 
-@pytest.mark.debug
+@pytest.mark.parametrize("username", ["standard_user"])
+@pytest.mark.parametrize("password", ["secret_sauce"])
 @pytest.mark.user_add_to_basket
 class TestUserSmoke():
     @pytest.fixture(scope="function", autouse=True)
-    def setup(self, browser):
+    def setup(self, browser, username, password):
         page = LoginPage(browser, link)
         page.open()
-        page.do_login()
+        page.user_login(username)
+        page.users_password(password)
+        time.sleep(1)
+        page.login_button_click()
 
     def test_smoke_from_add_to_buy(self, browser):
         page = InventoryPage(browser, browser.current_url)
         page.should_be_add_to_basket()
+        time.sleep(1)
         page.go_to_basket()
         cart_page = CartPage(browser, browser.current_url)
+        time.sleep(1)
         cart_page.go_to_checkout()
         cart_page.checkout_information("Test", "Test", "123")
+        time.sleep(1)
         cart_page.go_to_continue()
+        time.sleep(1)
         cart_page.go_to_finish()
-        time.sleep(3)
+        time.sleep(1)
