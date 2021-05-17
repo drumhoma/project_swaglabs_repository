@@ -22,4 +22,4 @@ class LoginPage(BasePage):
 
     def should_be_successful_login(self):
         # проверка, что на странице есть кнопка для логина
-        assert self.is_not_element_present(*LoginPageLocators.ERROR_MESSAGE), "Autorizaion ERROR!"
+        assert self.is_not_element_present(*LoginPageLocators.ERROR_MESSAGE), "Authorization ERROR!"
