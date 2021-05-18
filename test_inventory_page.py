@@ -49,7 +49,7 @@ class TestUserAddToBasket:
         page.go_to_basket()
 
 
-@pytest.mark.parametrize("username", ["standard_user"])
+@pytest.mark.parametrize("username", ["performance_glitch_user"])
 @pytest.mark.parametrize("password", ["secret_sauce"])
 @pytest.mark.user_add_to_basket
 class TestUserSmoke:
@@ -62,13 +62,16 @@ class TestUserSmoke:
         time.sleep(1)
         page.login_button_click()
 
+    @pytest.mark.debug
     def test_smoke_from_add_to_buy(self, browser):
         page = InventoryPage(browser, browser.current_url)
-        page.should_be_add_to_basket()
+        page.should_be_add_to_basket_button()
+        page.adds_to_basket()
+        page.should_be_number_in_basket()
         time.sleep(1)
         page.go_to_basket()
         cart_page = CartPage(browser, browser.current_url)
-        time.sleep(1)
+        time.sleep(3)
         cart_page.go_to_checkout()
         checkout_page = CheckOutPage(browser, browser.current_url)
         checkout_page.checkout_information("Test", "Test", "123")

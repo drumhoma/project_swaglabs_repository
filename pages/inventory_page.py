@@ -36,6 +36,11 @@ class InventoryPage(BasePage):
         # добавление товара в корзину
         self.browser.find_element(*InventoryPageLocators.ADD_TO_CART).click()
 
+    def adds_to_basket(self):
+        # добавление товара в корзину
+        for i in self.browser.find_elements(*InventoryPageLocators.ADD_TO_CART):
+            i.click()
+
     def should_be_number_in_basket(self):
         # проверка, что товар добавился в корзину
         assert self.is_element_present(*InventoryPageLocators.NUM_IN_CART), "Item was not added to basket"
