@@ -8,12 +8,6 @@ class LoginPageLocators:
     PASSWORD_FIELD = (By.XPATH, "//input[@id='password']")
     LOGIN_BUTTON = (By.XPATH, "//input[@id='login-button']")
 
-    STANDARD_USER = (By.XPATH, "//div[@id='login_credentials']/text()")
-    LOCKED_OUT_USER = (By.XPATH, "//div[@class='login_credentials']/text()[2]")
-    PROBLEM_USER = (By.XPATH, "//div[@class='login_credentials']/text()[3]")
-    PERFOMANCE_GLITCH_USER = (By.XPATH, "//div[@class='login_credentials']/text()[4]")
-    PASSWORD = (By.XPATH, "//div[@class='login_password']")
-
     ERROR_MESSAGE = (By.XPATH, "//div[@class='error-message-container error']")
 
 
@@ -38,6 +32,8 @@ class InventoryPageLocators:
 
 class CartPageLocators:
     CHECKOUT_BUTTON = (By.XPATH, "//button[@id='checkout']")
+    REMOVE_BUTTON = (By.XPATH, "//button[@id='remove-sauce-labs-bike-light']")
+    BACK_TO_INVENTORY = (By.XPATH, "//button[@id='continue-shopping']")
 
 
 class CheckOutPageLocators:

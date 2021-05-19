@@ -10,16 +10,16 @@ from .pages.login_page import LoginPage
 link = "https://www.saucedemo.com"
 
 
-@pytest.mark.parametrize("username",
-                         ["standard_user", "locked_out_user", "problem_user", "performance_glitch_user"])
+# @pytest.mark.parametrize("username",
+#                          ["standard_user", "locked_out_user", "problem_user", "performance_glitch_user"])
 @pytest.mark.parametrize("password", ["secret_sauce"])
 @pytest.mark.user_add_to_basket
 class TestUserAddToBasket:
     @pytest.fixture(scope="function", autouse=True)
-    def setup(self, browser, username, password):
+    def setup(self, browser,  password):
         page = LoginPage(browser, link)
         page.open()
-        page.user_login(username)
+        page.user_login("standard_user")
         page.users_password(password)
         page.login_button_click()
         page.should_be_successful_login()
@@ -48,6 +48,17 @@ class TestUserAddToBasket:
         page.remove_from_page()
         page.go_to_basket()
 
+    @pytest.mark.debug
+    def test_user_can_remove_from_basket(self, browser):
+        page = InventoryPage(browser, browser.current_url)
+        page.should_be_add_to_basket()
+        time.sleep(1)
+        page.go_to_basket()
+        cart_page = CartPage(browser, browser.current_url)
+        cart_page.remove_from_basket()
+        time.sleep(1)
+        cart_page.go_to_inventory()
+
 
 @pytest.mark.parametrize("username", ["performance_glitch_user"])
 @pytest.mark.parametrize("password", ["secret_sauce"])
@@ -62,7 +73,6 @@ class TestUserSmoke:
         time.sleep(1)
         page.login_button_click()
 
-    @pytest.mark.debug
     def test_smoke_from_add_to_buy(self, browser):
         page = InventoryPage(browser, browser.current_url)
         page.should_be_add_to_basket_button()
