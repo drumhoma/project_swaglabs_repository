@@ -5,11 +5,6 @@ from .locators import InventoryPageLocators
 
 
 class InventoryPage(BasePage):
-    def should_be_add_to_basket(self):
-        self.should_be_add_to_basket_button()
-        self.add_to_basket()
-        self.should_be_number_in_basket()
-
     def should_be_correct_data_in_card(self):
         name = self.get_text_element(*InventoryPageLocators.ITEM_NAME_IN_LINK)
         price = self.get_text_element(*InventoryPageLocators.ITEM_PRICE_IN_LINK)
@@ -30,13 +25,13 @@ class InventoryPage(BasePage):
 
     def should_be_add_to_basket_button(self):
         # проверка, что кнопка добавить в корзину есть на странице
-        assert self.is_element_present(*InventoryPageLocators.ADD_TO_CART), "'Add to basket' was not found"
+        assert self.is_element_present(*InventoryPageLocators.ADD_TO_CART), "'Add to basket' button was not found"
 
     def add_to_basket(self):
         # добавление товара в корзину
         self.browser.find_element(*InventoryPageLocators.ADD_TO_CART).click()
 
-    def adds_to_basket(self):
+    def add_all_to_basket(self):
         # добавление всех товаров в корзину
         for i in self.browser.find_elements(*InventoryPageLocators.ADD_TO_CART):
             i.click()
@@ -45,16 +40,27 @@ class InventoryPage(BasePage):
         # проверка, что на корзине появился индикатор количества товара
         assert self.is_element_present(*InventoryPageLocators.NUM_IN_CART), "Item was not added to basket"
 
+    def should_not_be_number_in_basket(self):
+        # проверка, что на корзине отсутствует индикатор количества товара
+        assert self.is_not_element_present(*InventoryPageLocators.NUM_IN_CART), "Item was not deleted from basket"
+
     def go_to_basket(self):
         self.browser.find_element(*InventoryPageLocators.SHOP_CART).click()
 
     def remove_from_page(self):
         self.browser.find_element(*InventoryPageLocators.DEL_FROM_CART).click()
-        assert self.is_not_element_present(*InventoryPageLocators.NUM_IN_CART), "Item was not deleted from basket"
 
-    def product_sort(self):
+    def product_sort(self, sort):
         # выбор сортировки товара
-        # подобрать ассерт
         select_menu = Select(self.browser.find_element(*InventoryPageLocators.SELECT_MENU))
-        value = self.browser.find_element(*InventoryPageLocators.VALUE_SELECT).text
-        select_menu.select_by_visible_text(value)
+        value_select = []
+        for i in self.browser.find_elements(*InventoryPageLocators.VALUE_SELECT):
+            value_select.append(i.text)
+        select_menu.select_by_visible_text(value_select[sort])
+        assert value_select[0] != value_select[sort], "Items was not sorted"
+
+    def go_to_menu(self):
+        self.browser.find_element(*InventoryPageLocators.SIDE_MENU).click()
+
+    def close_menu(self):
+         self.browser.find_element(*InventoryPageLocators.CLOSE_MENU).click()

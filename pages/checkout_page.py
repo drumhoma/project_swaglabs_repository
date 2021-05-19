@@ -19,5 +19,5 @@ class CheckOutPage(BasePage):
     def go_to_finish(self):
         self.browser.find_element(*CheckOutPageLocators.FINISH_BUTTON).click()
 
-    def should_be_go_back_home(self):
+    def go_back_home(self):
         self.browser.find_element(*CheckOutPageLocators.BACK_HOME_BUTTON).click()

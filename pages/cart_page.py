@@ -11,3 +11,7 @@ class CartPage(BasePage):
 
     def remove_from_basket(self):
         self.browser.find_element(*CartPageLocators.REMOVE_BUTTON).click()
+
+    def remove_all_from_basket(self):
+        for i in self.browser.find_elements(*CartPageLocators.REMOVE_BUTTON):
+            i.click()
