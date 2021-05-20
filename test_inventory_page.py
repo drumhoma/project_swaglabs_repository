@@ -19,21 +19,21 @@ class TestUserAddToBasket:
     def setup(self, browser, password):
         page = LoginPage(browser, link)
         page.open()
-        page.user_login("standard_user")
+        page.user_login("problem_user")
         page.users_password(password)
         page.login_button_click()
         page.should_be_successful_login()
 
     def test_user_can_open_item_card(self, browser):
         page = InventoryPage(browser, browser.current_url)
-        page.should_be_correct_data_in_card()
+        page.should_be_correct_name_in_card()
         page.should_be_back_to_inventory_page()
+        page.should_be_correct_price_in_basket()
 
+    @pytest.mark.debug
     def test_user_can_select_product_sort(self, browser):
         page = InventoryPage(browser, browser.current_url)
-        time.sleep(1)
-        page.product_sort(3)  # индекс списка сортировки 0 - 3
-        time.sleep(1)
+        page.product_sort(0)  # индекс списка сортировки 0 - 3
 
     def test_user_can_add_to_basket(self, browser):
         page = InventoryPage(browser, browser.current_url)
@@ -63,13 +63,10 @@ class TestUserAddToBasket:
         page = InventoryPage(browser, browser.current_url)
         page.should_not_be_number_in_basket()
 
-    @pytest.mark.debug
     def test_user_can_go_to_menu(self, browser):
         page = InventoryPage(browser, browser.current_url)
         page.go_to_menu()
-        time.sleep(1)
         page.close_menu()
-        time.sleep(1)
 
 
 @pytest.mark.parametrize("username", ["standard_user"])
