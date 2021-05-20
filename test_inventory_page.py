@@ -31,6 +31,7 @@ class TestUserAddToBasket:
         page.should_be_correct_price_in_basket()
 
     @pytest.mark.debug
+    @pytest.mark.bug
     def test_user_can_select_product_sort(self, browser):
         page = InventoryPage(browser, browser.current_url)
         page.product_sort(0)  # индекс списка сортировки 0 - 3
