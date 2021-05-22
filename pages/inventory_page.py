@@ -58,12 +58,14 @@ class InventoryPage(BasePage):
 
     def product_sort(self, sort):
         # выбор сортировки товара - тест не работает
+        before_sort_name = self.get_text_element(*InventoryPageLocators.ITEM_NAME_IN_LINK)
         select_menu = Select(self.browser.find_element(*InventoryPageLocators.SELECT_MENU))
         value_select = []
         for i in self.browser.find_elements(*InventoryPageLocators.VALUE_SELECT):
             value_select.append(i.text)
         select_menu.select_by_visible_text(value_select[sort])
-        assert value_select[0] != value_select[sort], "Items was not sorted"
+        after_sort_name = self.get_text_element(*InventoryPageLocators.ITEM_NAME_IN_LINK)
+        assert before_sort_name != after_sort_name, "Items was not sorted"
 
     def go_to_menu(self):
         # открыть сайд меню

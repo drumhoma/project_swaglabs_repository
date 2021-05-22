@@ -19,7 +19,7 @@ class TestUserAddToBasket:
     def setup(self, browser, password):
         page = LoginPage(browser, link)
         page.open()
-        page.user_login("problem_user")
+        page.user_login("standard_user")
         page.users_password(password)
         page.login_button_click()
         page.should_be_successful_login()
@@ -34,7 +34,7 @@ class TestUserAddToBasket:
     @pytest.mark.bug
     def test_user_can_select_product_sort(self, browser):
         page = InventoryPage(browser, browser.current_url)
-        page.product_sort(0)  # индекс списка сортировки 0 - 3
+        page.product_sort(3)  # индекс списка сортировки 0 - 3
 
     def test_user_can_add_to_basket(self, browser):
         page = InventoryPage(browser, browser.current_url)
@@ -82,7 +82,7 @@ class TestUserSmoke:
         page.users_password(password)
         page.login_button_click()
 
-    def test_smoke_from_add_to_buy(self, browser):
+    def test_demo_smoke_from_add_to_buy(self, browser):
         page = InventoryPage(browser, browser.current_url)
         page.should_be_add_to_basket_button()
         time.sleep(1)
@@ -111,4 +111,27 @@ class TestUserSmoke:
         time.sleep(1)
         checkout_page.go_back_home()
         time.sleep(1)
+        checkout_page.go_back_home()
+        page = InventoryPage(browser, browser.current_url)
+        page.should_not_be_number_in_basket()
+        time.sleep(1)
 
+    def test_smoke_from_add_to_buy(self, browser):
+        page = InventoryPage(browser, browser.current_url)
+        page.should_be_add_to_basket_button()
+        page.product_sort(1)
+        page.add_to_basket()
+        page.product_sort(3)
+        page.add_to_basket()
+        page.should_be_number_in_basket()
+        page.go_to_basket()
+        cart_page = CartPage(browser, browser.current_url)
+        cart_page.remove_from_basket()
+        cart_page.go_to_checkout()
+        checkout_page = CheckOutPage(browser, browser.current_url)
+        checkout_page.checkout_information("Test", "Test", "123")
+        checkout_page.go_to_continue()
+        checkout_page.go_to_finish()
+        checkout_page.go_back_home()
+        page = InventoryPage(browser, browser.current_url)
+        page.should_not_be_number_in_basket()
