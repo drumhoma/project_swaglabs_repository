@@ -72,7 +72,7 @@ class TestUserAddToBasket:
 
 @pytest.mark.parametrize("username", ["standard_user"])
 @pytest.mark.parametrize("password", ["secret_sauce"])
-@pytest.mark.user_add_to_basket
+@pytest.mark.smoke
 class TestUserSmoke:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, browser, username, password):
