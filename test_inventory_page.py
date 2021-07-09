@@ -10,16 +10,16 @@ from .pages.login_page import LoginPage
 link = "https://www.saucedemo.com"
 
 
-@pytest.mark.parametrize("username",
-                         ["standard_user", "locked_out_user", "problem_user", "performance_glitch_user"])
+# @pytest.mark.parametrize("username",
+#                          ["standard_user", "locked_out_user", "problem_user", "performance_glitch_user"])
 @pytest.mark.parametrize("password", ["secret_sauce"])
 @pytest.mark.user_add_to_basket
 class TestUserAddToBasket:
     @pytest.fixture(scope="function", autouse=True)
-    def setup(self, browser, username, password):
+    def setup(self, browser, password):
         page = LoginPage(browser, link)
         page.open()
-        page.user_login(username)
+        page.user_login("problem_user")
         page.users_password(password)
         page.login_button_click()
         page.should_be_successful_login()
@@ -70,22 +70,9 @@ class TestUserAddToBasket:
         page.close_menu()
 
 
-# @pytest.mark.parametrize("username",
-#                          ["standard_user", "locked_out_user", "problem_user", "performance_glitch_user"])
-@pytest.mark.parametrize("checkout_information", [
-    ("Test", "Test", 123),
-    ("Test", "Test", "Test"),
-    (123, 123, 123),
-    ("Test", "Test", ),
-    (" ", " ", " ")
-])
-@pytest.mark.parametrize("username", [
-    "standard_user"
-])
-@pytest.mark.parametrize("password", [
-    "secret_sauce"
-])
-@pytest.mark.smoke
+@pytest.mark.parametrize("username", ["standard_user"])
+@pytest.mark.parametrize("password", ["secret_sauce"])
+@pytest.mark.user_add_to_basket
 class TestUserSmoke:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, browser, username, password):
@@ -95,7 +82,7 @@ class TestUserSmoke:
         page.users_password(password)
         page.login_button_click()
 
-    def test_smoke_from_add_to_buy(self, browser, checkout_information):
+    def test_smoke_from_add_to_buy(self, browser):
         page = InventoryPage(browser, browser.current_url)
         page.should_be_add_to_basket_button()
         time.sleep(1)
@@ -116,12 +103,12 @@ class TestUserSmoke:
         time.sleep(1)
         cart_page.go_to_checkout()
         checkout_page = CheckOutPage(browser, browser.current_url)
-        checkout_page.checkout_information(checkout_information[0], checkout_information[1], checkout_information[2])
+        checkout_page.checkout_information("Test", "Test", "123")
         time.sleep(1)
         checkout_page.go_to_continue()
         time.sleep(1)
-        checkout_page.should_be_successful_checkout()
         checkout_page.go_to_finish()
         time.sleep(1)
         checkout_page.go_back_home()
         time.sleep(1)
+
