@@ -82,7 +82,15 @@ class TestUserSmoke:
         page.users_password(password)
         page.login_button_click()
 
-    def test_smoke_from_add_to_buy(self, browser):
+    @pytest.mark.parametrize("checkout_information", [
+        ("Test", "Test", 123),
+        ("Test", "Test", "Test"),
+        (123, 123, 123),
+        ("Test", "Test",),
+        (" ", " ", " ")
+    ])
+    @pytest.mark.smoke
+    def test_smoke_from_add_to_buy(self, browser, checkout_information):
         page = InventoryPage(browser, browser.current_url)
         page.should_be_add_to_basket_button()
         time.sleep(1)
@@ -103,7 +111,7 @@ class TestUserSmoke:
         time.sleep(1)
         cart_page.go_to_checkout()
         checkout_page = CheckOutPage(browser, browser.current_url)
-        checkout_page.checkout_information("Test", "Test", "123")
+        checkout_page.checkout_information(checkout_information[0], checkout_information[1], checkout_information[2])
         time.sleep(1)
         checkout_page.go_to_continue()
         time.sleep(1)
@@ -111,4 +119,3 @@ class TestUserSmoke:
         time.sleep(1)
         checkout_page.go_back_home()
         time.sleep(1)
-
