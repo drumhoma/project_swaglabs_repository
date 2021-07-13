@@ -10,27 +10,27 @@ from .pages.login_page import LoginPage
 link = "https://www.saucedemo.com"
 
 
-# @pytest.mark.parametrize("username",
-#                          ["standard_user", "locked_out_user", "problem_user", "performance_glitch_user"])
+@pytest.mark.parametrize("username",
+                         ["standard_user", "locked_out_user", "problem_user", "performance_glitch_user"])
 @pytest.mark.parametrize("password", ["secret_sauce"])
 @pytest.mark.user_add_to_basket
 class TestUserAddToBasket:
     @pytest.fixture(scope="function", autouse=True)
-    def setup(self, browser, password):
+    def setup(self, browser, username, password):
         page = LoginPage(browser, link)
         page.open()
-        page.user_login("problem_user")
+        page.user_login(username)
         page.users_password(password)
         page.login_button_click()
         page.should_be_successful_login()
 
+    @pytest.mark.debug
     def test_user_can_open_item_card(self, browser):
         page = InventoryPage(browser, browser.current_url)
         page.should_be_correct_name_in_card()
         page.should_be_back_to_inventory_page()
         page.should_be_correct_price_in_basket()
 
-    @pytest.mark.debug
     @pytest.mark.bug
     def test_user_can_select_product_sort(self, browser):
         page = InventoryPage(browser, browser.current_url)
@@ -70,9 +70,10 @@ class TestUserAddToBasket:
         page.close_menu()
 
 
-@pytest.mark.parametrize("username", ["standard_user"])
+@pytest.mark.parametrize("username",
+                         ["standard_user", "locked_out_user", "problem_user", "performance_glitch_user"])
 @pytest.mark.parametrize("password", ["secret_sauce"])
-@pytest.mark.user_add_to_basket
+@pytest.mark.smoke
 class TestUserSmoke:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, browser, username, password):
@@ -86,10 +87,9 @@ class TestUserSmoke:
         ("Test", "Test", 123),
         ("Test", "Test", "Test"),
         (123, 123, 123),
-        ("Test", "Test",),
+        ("Test", "Test", ""),
         (" ", " ", " ")
     ])
-    @pytest.mark.smoke
     def test_smoke_from_add_to_buy(self, browser, checkout_information):
         page = InventoryPage(browser, browser.current_url)
         page.should_be_add_to_basket_button()

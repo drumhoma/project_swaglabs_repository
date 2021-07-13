@@ -21,5 +21,5 @@ class LoginPage(BasePage):
         self.browser.find_element(*LoginPageLocators.LOGIN_BUTTON).click()
 
     def should_be_successful_login(self):
-        # проверка, что на странице есть кнопка для логина
+        # проверка, что на странице нет сообщения об ощибке авторизации
         assert self.is_not_element_present(*LoginPageLocators.ERROR_MESSAGE), "Authorization ERROR!"
