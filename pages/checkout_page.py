@@ -16,6 +16,10 @@ class CheckOutPage(BasePage):
     def go_to_continue(self):
         self.browser.find_element(*CheckOutPageLocators.CONTINUE_BUTTON).click()
 
+    def should_be_successful_checkout(self):
+        # проверка, что на странице есть кнопка для логина
+        assert self.is_not_element_present(*CheckOutPageLocators.ERROR_MESSAGE), "Checkout ERROR!"
+
     def go_to_finish(self):
         self.browser.find_element(*CheckOutPageLocators.FINISH_BUTTON).click()
 

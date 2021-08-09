@@ -50,3 +50,5 @@ class CheckOutPageLocators:
     CONTINUE_BUTTON = (By.XPATH, "//input[@id='continue']")
     FINISH_BUTTON = (By.XPATH, "//button[@id='finish']")
     BACK_HOME_BUTTON = (By.XPATH, "//button[@id='back-to-products']")
+
+    ERROR_MESSAGE = (By.XPATH, "//div[@class='error-message-container error']")
