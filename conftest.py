@@ -3,12 +3,13 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.opera.options import Options as OperaOptions
 
 
 def pytest_addoption(parser):
     parser.addoption('--browser', action='store', default="chrome", help="Choose browser: chrome, firefox, yandex")
     parser.addoption('--lang', action='store', default="en-gb", help="Choose site language...")
-    parser.addoption('--headless', action='store', default='no', help="yes/no")
+    parser.addoption('--headless', action='store', default='yes', help="yes/no")
 
 
 @pytest.fixture(scope="function")
@@ -42,20 +43,35 @@ def browser(request):
         # browser.maximize_window()
         # browser.set_window_size(1920, 1080)
 
-    elif browser_name == "yandex":
-        options = ChromeOptions()
-        options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
+    elif browser_name == "opera":
+        options = OperaOptions()
         options.add_argument('--start-maximized')
+        options.add_experimental_option('useAutomationExtension', False)
+        options.add_argument("--allow-elevated-browser")
+
         # options.add_argument('--window-size=1920x1080')
-        # options.add_argument('--headless')  # в таком виде не работает с яндекс:(
 
-        binary_yandex_driver_file = r'C:\Python\Scripts\yandexdriver.exe'
-        browser = webdriver.Chrome(binary_yandex_driver_file, options=options)
+        if headless == "yes":
+            options.add_argument('--headless')
 
-        new_window = browser.window_handles[1]  # переход на второю вкладку
-        browser.switch_to.window(new_window)
+        browser = webdriver.Opera(options=options)
         # browser.maximize_window()
         # browser.set_window_size(1920, 1080)
+
+    # elif browser_name == "yandex":
+    #     options = ChromeOptions()
+    #     options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
+    #     options.add_argument('--start-maximized')
+    #     # options.add_argument('--window-size=1920x1080')
+    #     # options.add_argument('--headless')  # в таком виде не работает с яндекс:(
+    #
+    #     binary_yandex_driver_file = r'C:\Python\Scripts\yandexdriver.exe'
+    #     browser = webdriver.Chrome(binary_yandex_driver_file, options=options)
+    #
+    #     new_window = browser.window_handles[1]  # переход на второю вкладку
+    #     browser.switch_to.window(new_window)
+    #     # browser.maximize_window()
+    #     # browser.set_window_size(1920, 1080)
 
     else:
         raise pytest.UsageError("--browser should be chrome or firefox or yandex")

@@ -1,6 +1,12 @@
 from selenium.webdriver.common.by import By
 
 
+class MainPageLocators:
+    TWITTER_LINK = (By.XPATH, "//li[@class='social_twitter']")
+    FB_LINK = (By.XPATH, "//li[@class='social_facebook']")
+    LINKEDIN_LINK = (By.XPATH, "//li[@class='social_linkedin']")
+
+
 class LoginPageLocators:
     LOGIN_LOGO = (By.XPATH, "//div[@class='login_logo']")
 

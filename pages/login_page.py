@@ -1,5 +1,6 @@
 from .base_page import BasePage
 from .locators import LoginPageLocators
+from selenium.common.exceptions import NoSuchElementException
 
 
 class LoginPage(BasePage):
@@ -22,4 +23,9 @@ class LoginPage(BasePage):
 
     def should_be_successful_login(self):
         # проверка, что на странице есть кнопка для логина
-        assert self.is_not_element_present(*LoginPageLocators.ERROR_MESSAGE), "Authorization ERROR!"
+        try:
+            text_error = self.get_text_element(*LoginPageLocators.ERROR_MESSAGE)
+            assert text_error == "Epic sadface: Sorry, this user has been locked out.", "Authorization ERROR!"
+        except NoSuchElementException:
+            return True
+        return False

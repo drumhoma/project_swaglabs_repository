@@ -13,9 +13,10 @@ class TestLogin:
         page.should_be_login_logo()
         page.should_be_login_button()
 
+
+    @pytest.mark.parametrize("password", ["secret_sauce", "no_secret_sauce"])
     @pytest.mark.parametrize("username",
-                             ["standard_user", "locked_out_user", "problem_user", "performance_glitch_user"])
-    @pytest.mark.parametrize("password", ["secret_sauce"])
+                             ["standard_user", "locked_out_user"])
     def test_standard_user_can_login(self, browser, username, password):
         page = LoginPage(browser, link)
         page.open()
